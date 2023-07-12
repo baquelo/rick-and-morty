@@ -59,6 +59,7 @@ const statusColor = computed(() => {
     padding: 0;
     margin: 10px;
     color: white;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.75);
 
     img {
         width: 100%;
