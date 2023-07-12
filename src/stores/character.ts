@@ -61,8 +61,12 @@ export const useCharacterStore = defineStore('character', {
         characters: [] as Character[],
     }),
     actions: {
-        async getCharacters() {
-            const result = await axios.get('https://rickandmortyapi.com/api/character');
+        async getCharacters(page: number = 1) {
+            this.characters = [];
+
+            const result = await axios.get(
+                `https://rickandmortyapi.com/api/character?page=${page}`,
+            );
 
             this.characters = result.data.results;
 
