@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CharacterCard from '@/components/CharacterCard.vue';
+import PaginationContainer from '@/components/PaginationContainer.vue';
 import { useCharacterStore } from '@/stores/character';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -32,12 +33,6 @@ async function onGetCharacters() {
 const page = computed(() => {
     return route.query.page ? Number(route.query.page) : 1;
 });
-const previousPage = computed(() => {
-    return page.value - 1;
-});
-const nextPage = computed(() => {
-    return page.value + 1;
-});
 
 watch(
     () => route.query.page,
@@ -51,20 +46,17 @@ watch(
     <main>
         <h1 class="title">Characters</h1>
         <div class="error-message" v-if="errorMessage"><span>Error:</span> {{ errorMessage }}</div>
-        <div v-if="loading">Loading...</div>
-        <section v-if="characters.length > 0" class="characters">
-            <CharacterCard
-                v-for="character in characters"
-                :key="character.id"
-                :character="character"
-            />
-            <nav>
-                <router-link :to="{ name: 'home', query: { page: previousPage } }"
-                    >Previous</router-link
-                >
-                <router-link :to="{ name: 'home', query: { page: nextPage } }">Next</router-link>
-            </nav>
-        </section>
+        <div v-if="loading" class="loader">Loading...</div>
+        <div v-if="characters.length > 0" class="characters-wrapper">
+            <div class="characters">
+                <CharacterCard
+                    v-for="character in characters"
+                    :key="character.id"
+                    :character="character"
+                />
+            </div>
+            <PaginationContainer :page="page" />
+        </div>
     </main>
 </template>
 
@@ -72,10 +64,21 @@ watch(
 .title {
     text-align: center;
 }
-.characters {
+
+.loader {
+    text-align: center;
+}
+
+.characters-wrapper {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    .characters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
 .error-message {
