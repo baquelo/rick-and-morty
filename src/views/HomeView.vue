@@ -6,8 +6,16 @@ import FiltersContainer from '@/components/FiltersContainer.vue';
 import PaginationContainer from '@/components/PaginationContainer.vue';
 import { useCharacterStore, StatusQuery, type CharacterQuery } from '@/stores/character';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref, watch, type PropType, toRefs } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+
+interface Props {
+    page: number;
+    status?: StatusQuery;
+    name?: string;
+}
+
+const props = defineProps<Props>();
 
 const route = useRoute();
 const router = useRouter();
@@ -24,30 +32,6 @@ const query = ref<CharacterQuery>({
     page: 1,
 });
 
-const props = defineProps({
-    page: {
-        type: Number,
-        required: true,
-    },
-    status: {
-        type: String as PropType<StatusQuery>,
-    },
-    name: {
-        type: String,
-    },
-});
-
-const { page, status, name } = toRefs(props);
-
-watch([page, status, name], ([newPage, newStatus, newName]) => {
-    console.log('watch:page', newPage);
-    console.log('watch:status', newStatus);
-    console.log('watch:name', newName);
-    // query.value.page = newPage?.value ?? 1;
-    // query.value.status = newStatus?.value ?? StatusQuery.All;
-    // query.value.name = newName?.value ?? '';
-});
-
 watch(
     () => route.query,
     async () => {
@@ -56,7 +40,6 @@ watch(
 );
 
 onMounted(async () => {
-    console.log('onMounted:page', props);
     if (route.query.name) {
         query.value.name = props.name;
     }
@@ -75,14 +58,12 @@ const onGetCharacters = async (option?: CharacterQuery) => {
     try {
         await getCharacters(option);
     } catch (error: any) {
-        console.error('errorman', error);
         errorMessage.value = error?.response?.data?.error ?? error.message;
     }
     loading.value = false;
 };
 
 const onChange = (query: CharacterQuery) => {
-    console.log('onChange:query', query);
     router.push({ name: 'home', query });
 };
 </script>

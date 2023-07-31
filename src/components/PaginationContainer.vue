@@ -2,14 +2,14 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute();
-
 interface Props {
     page: number;
     pages: number;
 }
 
 const props = defineProps<Props>();
+
+const route = useRoute();
 
 const previousPage = computed(() => {
     return props.page - 1;
