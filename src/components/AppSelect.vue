@@ -7,14 +7,19 @@ interface Option {
 interface Props {
     modelValue: string;
     options: Option[];
+    label: string;
 }
+
+defineEmits<{
+    'update:modelValue': [value: string];
+}>();
 
 defineProps<Props>();
 </script>
 
 <template>
     <div class="filter-wrapper">
-        <label for="filter">Status</label>
+        <label for="filter" data-cy="select-label">{{ label }}</label>
         <select
             :value="modelValue"
             id="filter"
@@ -23,6 +28,7 @@ defineProps<Props>();
                     $emit('update:modelValue', $event.target.value);
                 },
             }"
+            data-cy="select-input"
         >
             <option v-for="{ value, label } in options" :key="value" :value="value">
                 {{ label }}

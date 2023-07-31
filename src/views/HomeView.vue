@@ -77,7 +77,7 @@ const onChange = (query: CharacterQuery) => {
             <h2 class="title">Characters</h2>
             <FiltersContainer v-model="query" @update:modelValue="onChange" />
             <ErrorBanner :errorMessage="errorMessage" @clear="errorMessage = ''" />
-            <AppLoader v-if="loading" />
+            <AppLoader :show="loading" />
             <div v-if="characters.length > 0" class="characters-wrapper">
                 <div class="characters">
                     <CharacterCard
