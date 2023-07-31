@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { Status, type Character } from '@/stores/character';
-import { toRefs, type PropType, computed } from 'vue';
+import { toRefs, computed } from 'vue';
 
-const props = defineProps({
-    character: {
-        type: Object as PropType<Character>,
-        required: true,
-    },
-});
+interface Props {
+    character: Character;
+}
+
+const props = defineProps<Props>();
 
 const { character } = toRefs(props);
 

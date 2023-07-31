@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-const props = defineProps({
-    page: {
-        type: Number,
-        required: true,
-    },
-});
+const route = useRoute();
+
+interface Props {
+    page: number;
+    pages: number;
+}
+
+const props = defineProps<Props>();
 
 const previousPage = computed(() => {
     return props.page - 1;
@@ -18,12 +21,20 @@ const nextPage = computed(() => {
 
 <template>
     <nav class="pagination">
-        <router-link class="link" :to="{ name: 'home', query: { page: previousPage } }"
-            >Previous</router-link
+        <router-link
+            v-if="previousPage > 0"
+            class="link"
+            :to="{ name: 'home', query: { ...route.query, page: previousPage } }"
         >
-        <router-link class="link" :to="{ name: 'home', query: { page: nextPage } }"
-            >Next</router-link
+            Previous
+        </router-link>
+        <router-link
+            v-if="nextPage <= pages"
+            class="link"
+            :to="{ name: 'home', query: { ...route.query, page: nextPage } }"
         >
+            Next
+        </router-link>
     </nav>
 </template>
 
