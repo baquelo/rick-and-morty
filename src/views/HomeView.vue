@@ -63,7 +63,8 @@ const onGetCharacters = async (option?: CharacterQuery) => {
     loading.value = false;
 };
 
-const onChange = (query: CharacterQuery) => {
+const onChange = (_query: CharacterQuery) => {
+    const query = { ..._query };
     router.push({ name: 'home', query });
 };
 </script>
