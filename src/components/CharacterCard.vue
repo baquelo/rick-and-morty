@@ -25,7 +25,7 @@ const statusColor = computed(() => {
 
 <template>
     <AppCard :image="character.image" :alt="character.name">
-        <div class="name">
+        <div class="name" data-cy="character-name">
             {{ character.name }}
         </div>
         <div>

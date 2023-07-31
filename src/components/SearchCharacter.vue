@@ -6,6 +6,7 @@ interface Props {
 }
 
 const emit = defineEmits<{
+    onSearch: [value: string];
     'update:modelValue': [value?: string];
 }>();
 

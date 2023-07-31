@@ -10,26 +10,22 @@ interface Props {
     label: string;
 }
 
-defineEmits<{
+const emit = defineEmits<{
     'update:modelValue': [value: string];
 }>();
 
 defineProps<Props>();
+
+const onChange = (event: Event) => {
+    const target = event.target as HTMLSelectElement;
+    emit('update:modelValue', target.value);
+};
 </script>
 
 <template>
     <div class="filter-wrapper">
         <label for="filter" data-cy="select-label">{{ label }}</label>
-        <select
-            :value="modelValue"
-            id="filter"
-            v-bind="{
-                onChange: ($event) => {
-                    $emit('update:modelValue', $event.target.value);
-                },
-            }"
-            data-cy="select-input"
-        >
+        <select :value="modelValue" id="filter" @change="onChange" data-cy="select-input">
             <option v-for="{ value, label } in options" :key="value" :value="value">
                 {{ label }}
             </option>

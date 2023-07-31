@@ -54,6 +54,7 @@ onMounted(async () => {
 
 const onGetCharacters = async (option?: CharacterQuery) => {
     loading.value = true;
+    errorMessage.value = '';
 
     try {
         await getCharacters(option);

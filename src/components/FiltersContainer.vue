@@ -42,10 +42,7 @@ const statusOptions = [
 
 <template>
     <div class="wrapper">
-        <SearchCharacter
-            v-model="value.name"
-            @update:modelValue="$emit('update:modelValue', value)"
-        />
+        <SearchCharacter v-model="value.name" @onSearch="$emit('update:modelValue', value)" />
         <AppSelect
             label="Status"
             :options="statusOptions"
