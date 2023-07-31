@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 import SearchCharacter from '@/components/SearchCharacter.vue';
 import AppSelect from '@/components/AppSelect.vue';
-import type { CharacterQuery } from '@/stores/character';
+import type { CharacterQuery, StatusQuery } from '@/stores/character';
 
 interface Props {
     modelValue: CharacterQuery;
@@ -23,6 +23,15 @@ const value = computed({
     },
 });
 
+const status = computed({
+    get(): string {
+        return value.value.status ?? '';
+    },
+    set(newValue: string) {
+        value.value.status = newValue as StatusQuery;
+    },
+});
+
 const statusOptions = [
     { value: 'all', label: 'All' },
     { value: 'alive', label: 'Alive' },
@@ -33,11 +42,14 @@ const statusOptions = [
 
 <template>
     <div class="wrapper">
-        <SearchCharacter v-model="value.name" @onSearch="$emit('update:modelValue', value)" />
+        <SearchCharacter
+            v-model="value.name"
+            @update:modelValue="$emit('update:modelValue', value)"
+        />
         <AppSelect
             label="Status"
             :options="statusOptions"
-            v-model="value.status"
+            v-model="status"
             @update:modelValue="$emit('update:modelValue', value)"
         />
     </div>

@@ -2,12 +2,11 @@
 import { computed } from 'vue';
 
 interface Props {
-    modelValue: string;
+    modelValue?: string;
 }
 
 const emit = defineEmits<{
-    onSearch: [value: string];
-    'update:modelValue': [value: string];
+    'update:modelValue': [value?: string];
 }>();
 
 const props = defineProps<Props>();
